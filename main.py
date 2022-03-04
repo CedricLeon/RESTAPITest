@@ -69,13 +69,13 @@ class Client(Resource):
 
     @marshal_with(resource_fields)
     def put(self, client_id):
-        # Dictionnary with all the values passed in
-        args = client_put_args.parse_args()
         # Check that the id does not already exist
         result = ClientModel.query.filter_by(id=client_id).first()
         if result: # (exist)
             abort(409, message=f"Client id: N°{client_id} already taken.")
 
+        # Dictionnary with all the values passed in
+        args = client_put_args.parse_args()
         # Create a model with the data
         client = ClientModel(id = client_id, name=args['name'], gender=args['gender'], age=args['age'])
         # Add it to the DB (temporarily)
@@ -86,11 +86,12 @@ class Client(Resource):
 
     @marshal_with(resource_fields)
     def patch(self, client_id): # update? (Modify an object without giving all the information)
-        args = client_update_args.parse_args()
+        # Check client exists
         result = ClientModel.query.filter_by(id=client_id).first()
         if not result:
             abort(404, message=f"Client id: N°{client_id} doesn't exist, cannot update.")
 
+        args = client_update_args.parse_args()
         if args['name']: # Check there is a name field in args (there is always one but we check it is not none)
             result.name = args['name']
         if args['gender']:
@@ -104,9 +105,12 @@ class Client(Resource):
 
     def delete(self, client_id):
         # Check client exists
-        abort_if_client_id_doesnt_exist(client_id)
+        result = ClientModel.query.filter_by(id=client_id).first()
+        if not result:
+            abort(404, message=f"Client id: N°{client_id} doesn't exist, cannot delete.")
         # Delete his data and return NO JSON response
-        del clients[client_id]
+        ClientModel.query.filter_by(id=client_id).delete()
+        db.session.commit()
         return '', 204
 
 

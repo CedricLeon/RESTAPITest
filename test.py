@@ -20,17 +20,24 @@ data = [{"name": "cedric", "gender": "male", "age": 23},
 #print(response)
 
 # --- GET method test ---
-response = requests.get(BASE + "client/0")
-print(response.json())
+#response = requests.get(BASE + "client/0")
+#print(response.json())
 
-x = input()
+#x = input()
 
 # --- PUT method test ---
-response = requests.put(BASE + "client/0", {"name": "cedric", "gender": "male", "age": 17})
+response = requests.put(BASE + "client/25", {"name": "cedric", "gender": "male", "age": 17})
 print(response.json())
 
-x = input()
+#x = input()
 
 # --- PATCH method ---
-response = requests.patch(BASE + "client/1", {"age": 53})
-print(response.json())
+#response = requests.patch(BASE + "client/1", {"age": 53})
+#print(response.json())
+
+db_size = 10
+print(f"Print whole database (until client N°{db_size}):")
+for i in range(0, db_size):
+    response = requests.get(BASE + "client/" + str(i))
+    print(response.json())
+
