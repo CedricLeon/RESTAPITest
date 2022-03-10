@@ -1,43 +1,29 @@
 ########################################
 # Test file to send request to the API #
 ########################################
-
-import requests
+#import pickle
+from adapter import *
 
 BASE = "http://127.0.0.1:5000/"
 
-# Some data to put in the DB the first time
-data = [{"name": "cedric", "gender": "male", "age": 23},
-        {"name": "lucie", "gender": "female", "age": 22},
-        {"name": "ivan", "gender": "male", "age": 20}]
+# --- Adapter test ---
+# adapter = Adapter()
+# print(f"{bcolors.HEADER}DELETE Test:{bcolors.ENDC}")
+# print(f"{bcolors.OKGREEN}Reward = {adapter.inputToEndpoint((0.79, 0.10), 1)}{bcolors.ENDC}")
+#
+# print(f"{bcolors.HEADER}\nPUT Test:{bcolors.ENDC}")
+# print(f"{bcolors.OKGREEN}Reward = {adapter.inputToEndpoint((0.29, 0.10), 1)}{bcolors.ENDC}")
+#
+# print(f"{bcolors.HEADER}\nPATCH Test:{bcolors.ENDC}")
+# print(f"{bcolors.OKGREEN}Reward = {adapter.inputToEndpoint((0.59, 0.10), 1)}{bcolors.ENDC}")
+#
+# print(f"{bcolors.HEADER}\nGET Test:{bcolors.ENDC}")
+# print(f"{bcolors.OKGREEN}Reward = {adapter.inputToEndpoint((0.09, 0.10), 0)}{bcolors.ENDC}")
 
-#for i in range(len(data)):
-#    response = requests.put(BASE + "client/" + str(i), data[i])
-#    print(response.json())
-
-# --- Check the delete method (/!\ output is not json) ---
-#response = requests.delete(BASE + "client/0")
-#print(response)
-
-# --- GET method test ---
-#response = requests.get(BASE + "client/0")
-#print(response.json())
-
-#x = input()
-
-# --- PUT method test ---
-response = requests.put(BASE + "client/25", {"name": "cedric", "gender": "male", "age": 17})
-print(response.json())
-
-#x = input()
-
-# --- PATCH method ---
-#response = requests.patch(BASE + "client/1", {"age": 53})
-#print(response.json())
-
-db_size = 10
+db_size = 100
 print(f"Print whole database (until client N°{db_size}):")
 for i in range(0, db_size):
     response = requests.get(BASE + "client/" + str(i))
     print(response.json())
 
+#pickle.Unpickler("./stgem/mo3k_python_results.pickle").load()

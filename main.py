@@ -45,19 +45,19 @@ client_update_args.add_argument("name",   type=str, help="Name of the client is 
 client_update_args.add_argument("gender", type=str, help="Gender of the client is required")
 client_update_args.add_argument("age",    type=int, help="Age of the client is required")
 
-# --- Serialazing dictionnary creation ---
-# Create a dictionnary defining how to serialize the data in a json format
-resource_fields = {
-    'id': fields.Integer,
-    'name': fields.String,
-    'gender': fields.String,
-    'age': fields.Integer
-}
-
 # --- Main Resource class ---
 # Client class inheriting from Flask resource class
 # In this class we define 4 basic endpoints: GET, PUT, PATCH and DELETE
 class Client(Resource):
+
+    # --- Serialazing dictionnary creation ---
+    # Create a dictionnary defining how to serialize the data in a json format
+    resource_fields = {
+        'id': fields.Integer,
+        'name': fields.String,
+        'gender': fields.String,
+        'age': fields.Integer
+    }
 
     @marshal_with(resource_fields) # Precise that the return object will be formatted as resource_fields
     def get(self, client_id):
